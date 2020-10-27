@@ -19,17 +19,18 @@ public:
             return;
         }
         TOP++;
-        Liner[TOP] = item;
+        Linear[TOP] = item;
     }
 
     T PopAndGetTop()
     {
+        T item {};
         if (TOP == -1)
         {
             _LOG_(LOG, "UNDERFLOW");
-            return;
+            return item;
         }
-        T item = Linear[TOP];
+        item = Linear[TOP];
         TOP--;
         return item;
     }

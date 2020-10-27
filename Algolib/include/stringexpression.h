@@ -3,10 +3,10 @@
 #include "framework.h"
 #include "stackds.h"
 
-std::vector<char> GetPostfixFromInfix(std::string& exp);
-bool is_leftPrecedenceGreaterOrEqual(const char& op1, const char& op2);
-char is_operator(const char&);
-
+std::vector<char> GetPostfixFromInfix(std::string exp);
+bool is_leftPrecedenceGreaterOrEqual(const char &op1, const char &op2);
+char is_operator(const char &);
+char is_operand(const char &);
 
 std::vector<char> GetPostfixFromInfix(std::string exp)
 {
@@ -29,17 +29,17 @@ std::vector<char> GetPostfixFromInfix(std::string exp)
 				char opr = STACK.PopAndGetTop();
 				if (is_operator(opr) && is_leftPrecedenceGreaterOrEqual(opr, exp[i]))
 				{
-					PostfixP.push_back(exp[i]);
+					PostfixP.push_back(opr);
 				}
 				else
 				{
 					STACK.Push(opr);
 					break;
 				}
-				
 			}
+			STACK.Push(exp[i]);
 		}
-		else
+		else if (is_operand(exp[i]))
 		{
 			PostfixP.push_back(exp[i]);
 		}
@@ -55,10 +55,18 @@ std::vector<char> GetPostfixFromInfix(std::string exp)
 				}
 				PostfixP.push_back(popped);
 			}
-		}	
+		}
 	}
 
 	return PostfixP;
+}
+
+char is_operand(const char &val)
+{
+	if (!is_operator(val) && val != ')' && val != '(')
+		return val;
+	else
+		return '\0';
 }
 
 char is_operator(const char &val)
@@ -78,7 +86,7 @@ char is_operator(const char &val)
 
 bool is_leftPrecedenceGreaterOrEqual(const char &op1, const char &op2)
 {
-	static std::map<const char, int> Map = { {'^', 501}, {'/', 500}, {'*', 499}, {'+', 498}, {'-', 497}};
+	static std::map<const char, int> Map = {{'^', 501}, {'/', 500}, {'*', 499}, {'+', 498}, {'-', 497}};
 
 	if (Map[op1] >= Map[op2])
 		return true;
