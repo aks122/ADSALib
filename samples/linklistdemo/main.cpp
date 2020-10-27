@@ -20,7 +20,7 @@ int main()
     cout << endl;
     cout << "The count of the linked list items is "<<MyList.Count() << endl;
 
-    cout << "\nSORTED ARRAY"<<endl;
+    cout << "SORTED LINKED LIST"<<endl;
     LLinkedList<double> SortedList(true);
     SortedList.Append(7837);
     SortedList.Append(23);
@@ -28,6 +28,11 @@ int main()
     SortedList.Append(2);
     SortedList.Append(0.3655);
     SortedList.Append(2);
+    SortedList.ApplyAll(ProcessPrint<double>);
+    cout << endl;
+    cout << "The count of the linked list items is "<<SortedList.Count() << endl;
+    cout << "Now there are two 2s. Let's delete one of them" << endl;
+    SortedList.DeleteFirst(2);
     SortedList.ApplyAll(ProcessPrint<double>);
     cout << endl;
     cout << "The count of the linked list items is "<<SortedList.Count() << endl;

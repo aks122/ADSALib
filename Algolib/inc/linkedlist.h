@@ -64,8 +64,8 @@ public:
 
 	void DeleteFirst(T item)
 	{
-		LLNode<T> *preNode, theNode;
-		FindFirstOccurence(preNode, theNode);
+		LLNode<T> *preNode, *theNode;
+		FindFirstOccurence(item, preNode, theNode);
 		if (theNode == nullptr)
 		{
 			if (this->log != nullptr)
@@ -76,7 +76,7 @@ public:
 	}
 
 private:
-	void FindFirstOccurence(T item, LLNode<T> *preceedingNode, LLNode<T> *theNode) const
+	void FindFirstOccurence(T item, LLNode<T> *&preceedingNode, LLNode<T> *&theNode) const
 	{
 		if (START == nullptr)
 		{
