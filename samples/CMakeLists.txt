@@ -1,1 +1,2 @@
 add_subdirectory(linklistdemo)
+add_subdirectory(infixexpdemo)
