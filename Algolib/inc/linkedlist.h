@@ -12,9 +12,10 @@ template <typename T>
 class LLinkedList
 {
 public:
-	LLinkedList(bool sorted = false)
+	LLinkedList(bool sorted = false, std::ostream *plog = nullptr)
 	{
 		this->is_sorted = sorted;
+		this->log = plog;
 	}
 	const size_t Count() const
 	{
@@ -61,7 +62,70 @@ public:
 		}
 	}
 
+	void DeleteFirst(T item)
+	{
+		LLNode<T> *preNode, theNode;
+		FindFirstOccurence(preNode, theNode);
+		if (theNode == nullptr)
+		{
+			if (this->log != nullptr)
+				*(this->log) << "Item not in list" << '\n';
+			return;
+		}
+		RemoveAfter(preNode, theNode);
+	}
+
 private:
+	void FindFirstOccurence(T item, LLNode<T> *preceedingNode, LLNode<T> *theNode) const
+	{
+		if (START == nullptr)
+		{
+			preceedingNode = theNode = nullptr;
+			return;
+		}
+
+		if (START->info == item)
+		{
+			preceedingNode = nullptr;
+			theNode = START;
+			return;
+		}
+
+		LLNode<T> *PrevNode = START;
+		LLNode<T> *PTR = START->link;
+		while (PTR != nullptr)
+		{
+			if (PTR->info == item)
+			{
+				theNode = PTR;
+				preceedingNode = PrevNode;
+				return;
+			}
+			PrevNode = PTR;
+			PTR = PTR->link;
+		}
+
+		theNode = nullptr;
+		return;
+	}
+
+	void RemoveAfter(LLNode<T> *preceedingNode, LLNode<T> *theNode) noexcept(false)
+	{
+		if (this->START == nullptr)
+		{
+			if (this->log != nullptr)
+				*(this->log) << "UNDERFLOW" << '\n';
+			return;
+		}
+
+		if (preceedingNode == nullptr)
+			START = START->link;
+		else
+			preceedingNode->link = theNode->link;
+
+		delete theNode;
+	}
+
 	void InsertBefore(LLNode<T> *loc, T item) noexcept(false)
 	{
 		LLNode<T> *NEW_NODE = new LLNode<T>;
@@ -108,6 +172,7 @@ private:
 
 private:
 	LLNode<T> *START = nullptr;
+	/* mutable */ std::ostream *log = nullptr;
 	bool is_sorted{false};
 };
 
