@@ -2,6 +2,7 @@
 #include "stringexpression.h"
 
 using namespace std;
+using namespace algolib;
 
 int main()
 {

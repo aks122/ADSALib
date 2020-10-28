@@ -2,7 +2,7 @@
 #include "linkedlist.h"
 
 using namespace std;
-
+using namespace algolib;
 template<typename T>
 void ProcessPrint(T t)
 {

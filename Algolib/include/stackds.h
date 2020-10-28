@@ -1,51 +1,55 @@
 #ifndef STACKDS_H
 #define STACKDS_H
 #include "framework.h"
-template <typename T>
-class Stack
+namespace algolib
 {
-public:
-    Stack(size_t MaximumCount, std::ostream* log = nullptr) : MAX(MaximumCount) {
-        Linear = new T[MAX];
-        TOP = -1;
-        LOG = log;
-    }
-
-    void Push(T item)
+    template <typename T>
+    class Stack
     {
-        if (TOP == MAX-1)
+    public:
+        Stack(size_t MaximumCount, std::ostream *log = nullptr) : MAX(MaximumCount)
         {
-            _LOG_(LOG, "OVERFLOW");
-            return;
+            Linear = new T[MAX];
+            TOP = -1;
+            LOG = log;
         }
-        TOP++;
-        Linear[TOP] = item;
-    }
 
-    T PopAndGetTop()
-    {
-        T item {};
-        if (TOP == -1)
+        void Push(T item)
         {
-            _LOG_(LOG, "UNDERFLOW");
+            if (TOP == MAX - 1)
+            {
+                _LOG_(LOG, "OVERFLOW");
+                return;
+            }
+            TOP++;
+            Linear[TOP] = item;
+        }
+
+        T PopAndGetTop()
+        {
+            T item{};
+            if (TOP == -1)
+            {
+                _LOG_(LOG, "UNDERFLOW");
+                return item;
+            }
+            item = Linear[TOP];
+            TOP--;
             return item;
         }
-        item = Linear[TOP];
-        TOP--;
-        return item;
-    }
 
-    bool IsEmpty() const
-    {
-        if (TOP == -1)
-            return true;
-        return false;
-    }
-private:
-    T *Linear;
-    size_t MAX {0};
-    size_t TOP;
-    std::ostream* LOG;
-};
+        bool IsEmpty() const
+        {
+            if (TOP == -1)
+                return true;
+            return false;
+        }
 
+    private:
+        T *Linear;
+        size_t MAX{0};
+        size_t TOP;
+        std::ostream *LOG;
+    };
+} // namespace algolib
 #endif
