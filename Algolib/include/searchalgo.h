@@ -1,18 +1,23 @@
 #ifndef SEARCHALGO_H
 #define SEARCHALGO_H
 #include "framework.h"
-
-template <typename T>
-size_t GetIndexLinearSearch(T* data, T item, size_t N)
+namespace algolib
 {
-    sizet_t Index = 0;
-    while(data[Index] != item && Index < N)
+    template <typename T>
+    size_t GetIndexLinearSearch(T *data, T item, size_t N, bool naturalNum = false)
     {
-        ++Index;
+        size_t Index = 0;
+        while (data[Index] != item && Index < N)
+        {
+            ++Index;
+        }
+        if (Index < N)
+        {
+            if (naturalNum)
+                ++Index;
+            return Index;
+        }
+        return 0;
     }
-    if (Index <N)
-        return Index;
-    return -1;
-}
-
+} // namespace algolib
 #endif
