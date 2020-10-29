@@ -14,10 +14,9 @@ namespace algolib
 	class LLinkedList
 	{
 	public:
-		LLinkedList(bool sorted = false, std::ostream *plog = nullptr)
+		LLinkedList(bool sorted = false)
 		{
 			this->is_sorted = sorted;
-			this->log = plog;
 		}
 		const size_t Count() const
 		{
@@ -70,8 +69,7 @@ namespace algolib
 			FindFirstOccurence(item, preNode, theNode);
 			if (theNode == nullptr)
 			{
-				if (this->log != nullptr)
-					*(this->log) << "Item not in list" << '\n';
+				_LOG_("Item not in list");
 				return;
 			}
 			RemoveAfter(preNode, theNode);
@@ -115,8 +113,7 @@ namespace algolib
 		{
 			if (this->START == nullptr)
 			{
-				if (this->log != nullptr)
-					*(this->log) << "UNDERFLOW" << '\n';
+				_LOG_("UNDERFLOW");
 				return;
 			}
 
@@ -174,8 +171,7 @@ namespace algolib
 
 	private:
 		LLNode<T> *START = nullptr;
-		/* mutable */ std::ostream *log = nullptr;
-		bool is_sorted{false};
+		bool is_sorted {false};
 	};
 } // namespace algolib
 #endif

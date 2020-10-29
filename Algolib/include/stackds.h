@@ -7,18 +7,17 @@ namespace algolib
     class Stack
     {
     public:
-        Stack(size_t MaximumCount, std::ostream *log = nullptr) : MAX(MaximumCount)
+        Stack(size_t MaximumCount) : MAX(MaximumCount)
         {
             Linear = new T[MAX];
             TOP = -1;
-            LOG = log;
         }
 
         void Push(T item)
         {
             if (TOP == MAX - 1)
             {
-                _LOG_(LOG, "OVERFLOW");
+                _LOG_("OVERFLOW");
                 return;
             }
             TOP++;
@@ -30,7 +29,7 @@ namespace algolib
             T item{};
             if (TOP == -1)
             {
-                _LOG_(LOG, "UNDERFLOW");
+                _LOG_("UNDERFLOW");
                 return item;
             }
             item = Linear[TOP];
@@ -49,7 +48,6 @@ namespace algolib
         T *Linear;
         size_t MAX{0};
         size_t TOP;
-        std::ostream *LOG;
     };
 } // namespace algolib
 #endif
