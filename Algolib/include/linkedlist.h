@@ -1,6 +1,7 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 #include "framework.h"
+#include "stackds.h"
 namespace algolib
 {
 	template <typename T>
@@ -18,6 +19,23 @@ namespace algolib
 		{
 			this->is_sorted = sorted;
 		}
+
+		~LLinkedList()
+		{
+			Stack<LLNode<T>*> ToRemove(this->Count());
+			LLNode<T> *PTR = START;
+			while (PTR != nullptr)
+			{
+				ToRemove.Push(PTR);
+				PTR = PTR->link;
+			}
+
+			while (ToRemove.IsEmpty() == false)
+			{
+				delete ToRemove.PopAndGetTop();
+			}
+		}
+
 		const size_t Count() const
 		{
 			int cont{0};

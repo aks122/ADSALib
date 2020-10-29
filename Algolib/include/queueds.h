@@ -12,6 +12,11 @@ namespace algolib
             data = new T(MaximumCount);
         }
 
+        ~Queue()
+        {
+            delete[] data;
+        }
+
         void Insert(T item)
         {
             if ((FRONT == 0 and REAR == MAX - 1) or (FRONT == REAR + 1))

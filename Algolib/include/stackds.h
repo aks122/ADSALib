@@ -12,7 +12,10 @@ namespace algolib
             Linear = new T[MAX];
             TOP = -1;
         }
-
+        ~Stack()
+        {
+            delete[] Linear;
+        }
         void Push(T item)
         {
             if (TOP == MAX - 1)
