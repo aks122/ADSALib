@@ -3,94 +3,97 @@
 #include "framework.h"
 #include "stackds.h"
 
-std::vector<char> GetPostfixFromInfix(std::string exp);
-bool is_leftPrecedenceGreaterOrEqual(const char &op1, const char &op2);
-char is_operator(const char &);
-char is_operand(const char &);
-
-std::vector<char> GetPostfixFromInfix(std::string exp)
+namespace algolib
 {
-	// Remove space
-	exp.erase(std::remove_if(exp.begin(), exp.end(), [](char c) { return std::isspace(static_cast<unsigned char>(c)); }), exp.end());
-	std::vector<char> PostfixP;
+	std::vector<char> GetPostfixFromInfix(std::string exp);
+	bool is_leftPrecedenceGreaterOrEqual(const char &op1, const char &op2);
+	char is_operator(const char &);
+	char is_operand(const char &);
 
-	Stack<char> STACK(exp.length());
-
-	STACK.Push('(');
-	exp.append(")");
-	for (size_t i = 0; i < exp.length() && !STACK.IsEmpty(); i++)
+	std::vector<char> GetPostfixFromInfix(std::string exp)
 	{
-		if (exp[i] == '(')
-			STACK.Push('(');
-		else if (is_operator(exp[i]))
+		// Remove space
+		exp.erase(std::remove_if(exp.begin(), exp.end(), [](char c) { return std::isspace(static_cast<unsigned char>(c)); }), exp.end());
+		std::vector<char> PostfixP;
+
+		Stack<char> STACK(exp.length());
+
+		STACK.Push('(');
+		exp.append(")");
+		for (size_t i = 0; i < exp.length() && !STACK.IsEmpty(); i++)
 		{
-			while (!STACK.IsEmpty())
+			if (exp[i] == '(')
+				STACK.Push('(');
+			else if (is_operator(exp[i]))
 			{
-				char opr = STACK.PopAndGetTop();
-				if (is_operator(opr) && is_leftPrecedenceGreaterOrEqual(opr, exp[i]))
+				while (!STACK.IsEmpty())
 				{
-					PostfixP.push_back(opr);
+					char opr = STACK.PopAndGetTop();
+					if (is_operator(opr) && is_leftPrecedenceGreaterOrEqual(opr, exp[i]))
+					{
+						PostfixP.push_back(opr);
+					}
+					else
+					{
+						STACK.Push(opr);
+						break;
+					}
 				}
-				else
+				STACK.Push(exp[i]);
+			}
+			else if (is_operand(exp[i]))
+			{
+				PostfixP.push_back(exp[i]);
+			}
+
+			if (exp[i] == ')')
+			{
+				while (!STACK.IsEmpty())
 				{
-					STACK.Push(opr);
-					break;
+					char popped = STACK.PopAndGetTop();
+					if (popped == '(')
+					{
+						break;
+					}
+					PostfixP.push_back(popped);
 				}
 			}
-			STACK.Push(exp[i]);
-		}
-		else if (is_operand(exp[i]))
-		{
-			PostfixP.push_back(exp[i]);
 		}
 
-		if (exp[i] == ')')
+		return PostfixP;
+	}
+
+	char is_operand(const char &val)
+	{
+		if (!is_operator(val) && val != ')' && val != '(')
+			return val;
+		else
+			return '\0';
+	}
+
+	char is_operator(const char &val)
+	{
+		switch (val)
 		{
-			while (!STACK.IsEmpty())
-			{
-				char popped = STACK.PopAndGetTop();
-				if (popped == '(')
-				{
-					break;
-				}
-				PostfixP.push_back(popped);
-			}
+		case '-':
+		case '+':
+		case '*':
+		case '/':
+		case '^':
+			return val;
+		default:
+			return '\0';
 		}
 	}
 
-	return PostfixP;
-}
-
-char is_operand(const char &val)
-{
-	if (!is_operator(val) && val != ')' && val != '(')
-		return val;
-	else
-		return '\0';
-}
-
-char is_operator(const char &val)
-{
-	switch (val)
+	bool is_leftPrecedenceGreaterOrEqual(const char &op1, const char &op2)
 	{
-	case '-':
-	case '+':
-	case '*':
-	case '/':
-	case '^':
-		return val;
-	default:
-		return '\0';
+		static std::map<const char, int> Map = {{'^', 501}, {'/', 500}, {'*', 499}, {'+', 498}, {'-', 497}};
+
+		if (Map[op1] >= Map[op2])
+			return true;
+		else
+			return false;
 	}
-}
-
-bool is_leftPrecedenceGreaterOrEqual(const char &op1, const char &op2)
-{
-	static std::map<const char, int> Map = {{'^', 501}, {'/', 500}, {'*', 499}, {'+', 498}, {'-', 497}};
-
-	if (Map[op1] >= Map[op2])
-		return true;
-	else
-		return false;
-}
+} // namespace algolib
 #endif
