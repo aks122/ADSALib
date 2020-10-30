@@ -13,6 +13,7 @@ int main()
     int t;
     cin >> t;
     cout << "Index is: " << GetIndexLinearSearch(arr, t, sizeof(arr)/sizeof(int))<<endl;
-
+    cout<<"Now let find using binary search"<<endl;
+    cout << "Index is: " << GetIndexBinarySearch(arr, t, sizeof(arr)/sizeof(int))<<endl;
     return 0;
 }
