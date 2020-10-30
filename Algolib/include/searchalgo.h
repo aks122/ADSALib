@@ -13,24 +13,25 @@ namespace algolib
         }
         if (Index < N)
             return Index;
-        return 0;
+        return -1;
     }
+
     template <typename T>
-size_t GetIndexBinarySearch(T* data, T item, size_t N)
-{
-    size_t lowerBound = 0, upperBound = N-1;
-    size_t middle = (lowerBound + upperBound) / 2;
-    while (data[middle] != item && lowerBound <= upperBound)
+    size_t GetIndexBinarySearch(T *data, T item, size_t N)
     {
-        if (item < data[middle])
-            upperBound = middle - 1;
-        else
-            lowerBound = middle  +1;
-        middle = (lowerBound + upperBound) / 2;
+        size_t lowerBound = 0, upperBound = N - 1;
+        size_t middle = (lowerBound + upperBound) / 2;
+        while (data[middle] != item && lowerBound <= upperBound)
+        {
+            if (item < data[middle])
+                upperBound = middle - 1;
+            else
+                lowerBound = middle + 1;
+            middle = (lowerBound + upperBound) / 2;
+        }
+        if (data[middle] = item)
+            return middle;
+        return -1;
     }
-    if (data[middle] = item)
-        return middle;
-    return -1;
-}
 } // namespace algolib
 #endif
