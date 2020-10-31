@@ -1,4 +1,0 @@
-add_subdirectory(linklistdemo)
-add_subdirectory(infixexpdemo)
-add_subdirectory(searchdemos)
-add_subdirectory(queuedemo1)
